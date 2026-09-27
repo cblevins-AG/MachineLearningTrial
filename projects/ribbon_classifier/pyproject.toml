@@ -1,0 +1,35 @@
+# Project file for the ribbon_classifier package - the Python analogue of a .csproj.
+# Dependencies here are loose ranges ("what the code needs"); the exact,
+# tested versions live in /requirements/*.txt and /requirements/lock.txt.
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ribbon-classifier"
+version = "0.1.0"
+description = "Locate the ribbon in a photo and classify the fold/cut technique used."
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "pillow>=11.0",
+    "pillow-heif>=0.20",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+    "matplotlib>=3.9",
+    "torch>=2.6",
+    "torchvision>=0.21",
+    "timm>=1.0",
+    "transformers>=4.50",
+    "safetensors>=0.4",
+    "scikit-learn>=1.5",
+    "pypdfium2>=5.0",
+]
+
+[project.scripts]
+# Installs a `ribbon` command (ribbon.exe on Windows) into the venv.
+ribbon = "ribbon_classifier.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

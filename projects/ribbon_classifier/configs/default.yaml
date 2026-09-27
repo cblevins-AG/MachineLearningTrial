@@ -1,0 +1,64 @@
+# Ribbon classifier configuration. Relative paths are resolved against
+# projects/ribbon_classifier/. Keys you delete fall back to the built-in
+# defaults in src/ribbon_classifier/config.py (a unit test keeps them equal).
+
+paths:
+  data_dir: data                          # image_path values in CSVs are relative to this
+  labels_csv: data/labels.csv             # all labelled images (built by `ribbon manifest`)
+  splits_csv: data/splits.csv             # + train/val/test column (built by `ribbon split`)
+  cropped_csv: data/splits_cropped.csv    # same rows, pointing at ribbon crops (`ribbon crop`)
+  crops_dir: data/processed/crops
+  models_dir: models
+
+split:
+  val_fraction: 0.15
+  test_fraction: 0.15
+  seed: 42
+  # Always train on these sources, never test on them: the test set should
+  # look like the photos the model will see in real use.
+  train_only_sources: [reference_pdf]
+
+localizer:
+  model: google/owlv2-base-patch16-ensemble   # zero-shot detector, ~0.6 GB download
+  prompts: ["a photo of a ribbon", "a ribbon bow", "a piece of ribbon"]
+  score_threshold: 0.10                       # lower = finds more, including wrong things
+  margin: 0.10                                # border kept around the box (fraction of its size)
+
+model:
+  # ConvNeXt-Nano (15M parameters, ImageNet-12k pretrained): a CPU-friendly
+  # default, ~1.2 min per epoch per 1,000 images on a 4-core CPU. With an
+  # NVIDIA GPU, switch to the larger, usually slightly more accurate
+  # convnext_tiny.fb_in22k_ft_in1k (28M; ~2.8 min/epoch/1,000 images on the
+  # same CPU, seconds on a GPU). Fastest on CPU: efficientnet_b0.ra4_e3600_r224_in1k.
+  backbone: convnext_nano.in12k_ft_in1k
+  pretrained: true
+  image_size: 224
+  drop_rate: 0.2
+
+augment:
+  # Every augmentation must keep the label true. If a technique has a
+  # left/right-specific variant, set horizontal_flip to false.
+  horizontal_flip: true
+  vertical_flip: false
+  rotation_degrees: 15.0
+  min_crop_scale: 0.6
+  color_jitter: 0.2
+
+train:
+  epochs: 30
+  head_only_epochs: 3
+  batch_size: 32            # lower to 16 or 8 on "CUDA out of memory"
+  head_lr: 1.0e-3
+  backbone_lr: 1.0e-4
+  weight_decay: 0.05
+  label_smoothing: 0.1
+  patience: 7
+  num_workers: 0            # 0 is safest on Windows/notebooks; 4 loads images faster
+  amp: true
+  seed: 42
+
+probe:
+  backbone: vit_small_patch14_dinov2.lvd142m   # self-supervised features, ~90 MB
+  pretrained: true
+  image_size: 224
+  batch_size: 32
