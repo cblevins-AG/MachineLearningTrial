@@ -1,0 +1,16 @@
+# One-stop install: both projects, their pinned dependencies and dev tools.
+#
+# Run from the repository root (the -e paths below are relative to it):
+#   Windows (recommended): .\scripts\setup_env.ps1
+#       installs the right PyTorch build for your GPU first, then this file.
+#   Any OS, CPU-only:      python -m pip install -r requirements.txt
+#
+# -c applies the full lock as constraints: exact versions for everything,
+# including indirect dependencies. -e installs our own packages "editable"
+# (like a project reference: code changes apply without reinstalling).
+-c requirements/lock.txt
+-r requirements/ribbon_classifier.txt
+-r requirements/layer_diff.txt
+-r requirements/dev.txt
+-e ./projects/ribbon_classifier
+-e ./projects/layer_diff

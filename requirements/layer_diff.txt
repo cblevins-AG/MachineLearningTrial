@@ -1,0 +1,8 @@
+# Project 2: PDF layer difference tool (classical computer vision, no training).
+-r common.txt
+
+pikepdf==10.14.0                 # read/edit PDF structure: list layers, switch them on/off
+pypdfium2==5.13.0                # render PDF pages to pixels (Chrome's PDF engine)
+opencv-python-headless==5.0.0.93 # fast image ops: connected regions, morphology, drawing
+scikit-image==0.26.0             # SSIM and perceptual (CIELAB) colour differences
+anthropic==1.8.0                 # OPTIONAL cloud describer; only used with --describer claude

@@ -1,0 +1,19 @@
+# OPTIONAL alternative for people who already use conda (e.g. Miniforge).
+# The recommended path is venv + pip via scripts/setup_env.ps1 (see
+# docs/02_INSTALLATION.md): PyTorch stopped publishing conda packages after
+# version 2.5, so even here conda only supplies Python and pip does the rest.
+#
+# Usage, from the repository root:
+#   conda env create -f environment.yml
+#   conda activate ml-vision
+# For an NVIDIA GPU, then replace the CPU build of PyTorch (use cu126 for
+# GTX 10-series and older cards, or drivers older than 580):
+#   python -m pip install --force-reinstall --no-deps torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cu130
+name: ml-vision
+channels:
+  - conda-forge
+dependencies:
+  - python=3.14
+  - pip
+  - pip:
+      - -r requirements.txt

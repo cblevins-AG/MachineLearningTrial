@@ -1,0 +1,18 @@
+# Normalise line endings: LF in the repository, native on checkout.
+* text=auto
+
+# PowerShell scripts keep CRLF so Windows PowerShell 5.1 is always happy.
+*.ps1 text eol=crlf
+
+# Notebooks are JSON; outputs are stripped by nbstripout (installed by setup_env.ps1).
+*.ipynb text eol=lf
+
+# Binary files: never touch line endings, never try to diff as text.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.heic binary
+*.tif binary
+*.tiff binary
+*.safetensors binary

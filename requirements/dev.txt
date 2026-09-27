@@ -1,0 +1,8 @@
+# Developer tooling (not needed at runtime).
+jupyterlab==4.6.4       # browser notebooks (VS Code can also open .ipynb files)
+ipykernel==7.3.0        # lets Jupyter / VS Code run notebooks in this .venv
+ipywidgets==8.1.9       # interactive widgets; gives notebooks proper progress bars
+pytest==9.1.1           # test runner (think xUnit/NUnit)
+ruff==0.16.9            # linter + formatter (think Roslyn analyzers + dotnet format)
+nbstripout==0.9.1       # strips notebook outputs before commit (keeps diffs small)
+uv==0.12.19             # fast resolver used to regenerate requirements/lock.txt

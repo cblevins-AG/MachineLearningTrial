@@ -1,0 +1,16 @@
+# Ruff: linter + formatter (`ruff check .` and `ruff format .` from the repo root).
+line-length = 120
+target-version = "py312"
+
+[lint]
+# E/F = pycodestyle + pyflakes basics, I = import sorting, B = likely bugs,
+# UP = modern syntax for the target Python version.
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]  # long lines are left to the formatter
+
+[lint.isort]
+known-first-party = ["ribbon_classifier", "layer_diff"]
+
+[format]
+# Code blocks in the Markdown guides use aligned teaching comments; leave them as written.
+exclude = ["*.md"]

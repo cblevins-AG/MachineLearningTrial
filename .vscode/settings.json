@@ -1,0 +1,26 @@
+{
+  // Use the repo's virtual environment for the editor, terminals, tests and notebooks.
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+  "python.terminal.activateEnvironment": true,
+
+  // Test Explorer: discover and run pytest tests (settings come from pytest.ini).
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+
+  // Ruff formats and organises imports on save.
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": { "source.organizeImports": "explicit" }
+  },
+
+  // Start notebooks from the folder they live in, so relative paths behave.
+  "jupyter.notebookFileRoot": "${fileDirname}",
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/*.egg-info": true
+  }
+}

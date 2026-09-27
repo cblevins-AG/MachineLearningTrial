@@ -1,0 +1,8 @@
+# Shared by both projects. Exact pins (==) so every machine gets identical
+# behaviour; bump deliberately, then regenerate requirements/lock.txt.
+numpy==2.5.3            # n-dimensional arrays: every image is a numpy array
+pandas==3.0.6           # tables (CSV label manifests, reports)
+pillow==12.3.0          # open/save/resize images (PNG, JPEG, TIFF, ...)
+pyyaml==6.0.3           # read the YAML config files in projects/*/configs
+tqdm==4.70.1            # progress bars for long loops
+matplotlib==3.11.2      # charts and image grids in notebooks

@@ -1,0 +1,10 @@
+{
+  // VS Code offers to install these when you open the folder.
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.jupyter",
+    "charliermarsh.ruff",
+    "redhat.vscode-yaml"
+  ]
+}

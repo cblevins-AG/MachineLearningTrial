@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments (recreate with scripts/setup_env.ps1; never commit)
+.venv/
+venv/
+env/
+
+# ---------------------------------------------------------------------------
+# Jupyter
+# ---------------------------------------------------------------------------
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# Data, models and outputs: large, often proprietary, and reproducible.
+# Folders stay in git (via README.md / .gitkeep) so the layout is visible;
+# their contents do not. Share data with a file share, Git LFS or DVC instead
+# (see docs/01_GETTING_STARTED.md).
+# ---------------------------------------------------------------------------
+projects/*/data/**
+!projects/*/data/**/
+!projects/*/data/**/README.md
+!projects/*/data/**/.gitkeep
+# The small synthetic sample PDFs are generated test fixtures, safe to commit.
+!projects/layer_diff/data/samples/*.pdf
+
+projects/ribbon_classifier/models/*
+!projects/ribbon_classifier/models/README.md
+
+# Model files anywhere else
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# ---------------------------------------------------------------------------
+# Secrets and local settings
+# ---------------------------------------------------------------------------
+.env
+.env.*
+*.key
+
+# ---------------------------------------------------------------------------
+# Editors and operating systems
+# ---------------------------------------------------------------------------
+.vs/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+Thumbs.db
+desktop.ini
+.DS_Store

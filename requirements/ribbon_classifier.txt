@@ -1,0 +1,15 @@
+# Project 1: ribbon fold/cut classifier (deep learning).
+-r common.txt
+
+# PyTorch. On Windows the PyPI build of torch is CPU-only; for an NVIDIA GPU,
+# scripts/setup_env.ps1 installs these same versions from PyTorch's CUDA index
+# first (see docs/02_INSTALLATION.md). The pins below are then already met.
+torch==2.14.0           # tensors + autograd + GPU: the deep learning engine
+torchvision==0.29.0     # image transforms/augmentation and datasets for torch
+
+timm==1.0.30            # pretrained image backbones (ConvNeXt, EfficientNet, DINOv2, ...)
+transformers==5.17.0    # OWLv2 zero-shot object detector used to find the ribbon
+safetensors==0.8.0      # safe, fast weight files (no pickle code execution)
+scikit-learn==1.9.1     # data splits, logistic-regression baseline, metrics
+pypdfium2==5.13.0       # pull images + text out of the 100-page reference PDF
+pillow-heif==1.8.0      # lets Pillow open iPhone HEIC photos
