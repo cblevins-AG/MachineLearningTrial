@@ -1,0 +1,32 @@
+# Project file for the layer_diff package - the Python analogue of a .csproj.
+# Dependencies here are loose ranges ("what the code needs"); the exact,
+# tested versions live in /requirements/*.txt and /requirements/lock.txt.
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "layer-diff"
+version = "0.1.0"
+description = "Compare named layers across production PDFs, describe the differences, and score them."
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0",
+    "pillow>=11.0",
+    "pyyaml>=6.0",
+    "pikepdf>=9.0",
+    "pypdfium2>=5.0",
+    "opencv-python-headless>=4.10",
+    "scikit-image>=0.24",
+]
+
+[project.optional-dependencies]
+# Only needed for `--describer claude` (sends layer images to the Claude API).
+cloud = ["anthropic>=1.0"]
+
+[project.scripts]
+# Installs a `layer-diff` command (layer-diff.exe on Windows) into the venv.
+layer-diff = "layer_diff.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

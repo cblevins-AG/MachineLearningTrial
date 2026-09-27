@@ -1,0 +1,35 @@
+# layer-diff settings. These values equal the built-in defaults (a unit test
+# keeps them in sync). Copy this file, edit it, and pass it with --config.
+# Command-line flags override anything set here.
+
+# Render resolution. 150 DPI = 0.17 mm per pixel. Use 300 to catch changes in
+# very small text (about 4x slower and 4x the memory).
+dpi: 150.0
+
+# Colour difference (CIE76 delta E) below which two pixels count as the same.
+# ~2.3 is barely visible to a trained eye; 10 ignores rendering noise but
+# catches any colour change a person would call a change.
+color_tolerance: 10.0
+
+# Delta E from pure white above which a pixel counts as ink (not paper).
+ink_threshold: 8.0
+
+# Changed areas smaller than this many square millimetres are ignored as noise.
+min_region_mm2: 0.5
+
+# Changes closer together than this (mm) are reported as one difference.
+merge_distance_mm: 2.0
+
+# How far (mm) to search for an element that moved rather than changed.
+move_search_mm: 10.0
+
+# pairwise = every file vs every other file; baseline = each file vs the first.
+mode: pairwise
+
+# local = offline sentences built from the measurements (default).
+# claude = also send the layer images to the Claude API (needs ANTHROPIC_API_KEY).
+describer: local
+claude_model: claude-opus-5
+
+# Write PNG renders and colour-coded overlays next to report.json / report.md.
+save_images: true
