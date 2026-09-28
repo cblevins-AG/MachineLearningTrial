@@ -37,6 +37,26 @@ def _cmd_extract_reference(args: argparse.Namespace, config: Config) -> None:
     )
 
 
+def _cmd_moa_labels(args: argparse.Namespace, config: Config) -> None:
+    from .moa import build_moa_labels, operation_summary
+
+    data_dir = config.path(config.paths.data_dir)
+    designs = Path(args.designs) if args.designs else config.path("data/reference/moa_designs.yaml")
+    catalog = Path(args.catalog) if args.catalog else config.path("data/reference/moa_catalog.yaml")
+    images, per_design, problems = build_moa_labels(designs, catalog, data_dir, args.label_by)
+    out = Path(args.out) if args.out else config.path("data/interim/moa")
+    out.mkdir(parents=True, exist_ok=True)
+    images.to_csv(out / "moa_labels.csv", index=False, encoding="utf-8-sig")
+    per_design.to_csv(out / "moa_designs.csv", index=False, encoding="utf-8-sig")
+    summary = operation_summary(per_design, catalog)
+    summary.to_csv(out / "moa_operation_summary.csv", index=False)
+    for problem in problems:
+        print(f"  ! {problem}")
+    print(summary.to_string(index=False))
+    print(f"Wrote {len(images)} image row(s) for {len(per_design)} design(s) to {out / 'moa_labels.csv'}")
+    print(f"Next: ribbon manifest --csv {out / 'moa_labels.csv'}")
+
+
 def _cmd_manifest(args: argparse.Namespace, config: Config) -> None:
     from .dataset import manifest_from_folders, read_manifest
 
@@ -147,6 +167,20 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--min-side", type=int, default=128, help="Skip images smaller than this (px).")
     p.add_argument("--render-pages-dpi", type=float, help="Also save whole pages at this DPI (for scanned PDFs).")
     p.set_defaults(func=_cmd_extract_reference)
+
+    p = sub.add_parser(
+        "moa-labels", parents=[common], help="Label reference-PDF images from MOA design/catalogue YAML files."
+    )
+    p.add_argument("--designs", help="Default: data/reference/moa_designs.yaml")
+    p.add_argument("--catalog", help="Default: data/reference/moa_catalog.yaml")
+    p.add_argument(
+        "--label-by",
+        default="legacy",
+        choices=["legacy", "section", "none"],
+        help="What fills the single 'label' column (the per-operation count columns are always written).",
+    )
+    p.add_argument("--out", help="Output folder (default: data/interim/moa).")
+    p.set_defaults(func=_cmd_moa_labels)
 
     p = sub.add_parser("manifest", parents=[common], help="Combine labelled folders and CSVs into labels.csv.")
     p.add_argument("--folders", nargs="*", help="Folders whose sub-folders are label names.")

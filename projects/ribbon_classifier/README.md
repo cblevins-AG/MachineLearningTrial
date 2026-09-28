@@ -70,6 +70,11 @@ The full walkthrough with explanations is in [docs/01_GETTING_STARTED.md](../../
 # 1. Pull images + page text out of the reference PDF, then label the CSV in Excel
 ribbon extract-reference data\raw\reference_pdf\reference.pdf
 
+#    ...or, for a deck that lists assembly steps (MOAs) per design, type it up once in
+#    data\reference\*.yaml (see data\reference\README.md) and label every image from it:
+#    ribbon extract-reference data\raw\reference_pdf\ribbon_moas.pdf --out data\interim\moa_pdf
+#    ribbon moa-labels          (then pass data\interim\moa\moa_labels.csv to --csv below)
+
 # 2. Combine labelled folders + the finished reference CSV into data\labels.csv
 ribbon manifest --folders data\raw\examples --csv data\interim\reference_pdf\reference_candidates.csv
 

@@ -22,8 +22,8 @@ MachineLearningTrial/
     │   ├── data/                   README.md; raw/{reference_pdf,examples}/, interim/, processed/
     │   ├── models/README.md
     │   ├── notebooks/              01_explore_dataset.ipynb, 02_review_model.ipynb
-    │   ├── src/ribbon_classifier/  14 modules
-    │   └── tests/                  conftest.py, test_data.py, test_pipeline.py
+    │   ├── src/ribbon_classifier/  15 modules
+    │   └── tests/                  conftest.py, test_data.py, test_moa.py, test_pipeline.py
     └── layer_diff/                 PROJECT 2: PDF layer difference tool
         ├── README.md  pyproject.toml
         ├── configs/default.yaml
@@ -107,6 +107,8 @@ MachineLearningTrial/
 | `projects/ribbon_classifier/data/raw/reference_pdf/.gitkeep` | Empty marker so git keeps the folder |
 | `projects/ribbon_classifier/data/raw/examples/` | Labelled example photos: one sub-folder per label, optional nested sub-folder per physical ribbon |
 | `projects/ribbon_classifier/data/raw/examples/.gitkeep` | Empty marker so git keeps the folder |
+| `projects/ribbon_classifier/data/reference/` | Hand-written YAML for a reference deck that lists assembly operations (MOAs) per example design: `moa_catalog.yaml` (vocabulary) and `moa_designs.yaml` (one entry per example page). Git-ignored like the rest of `data/` |
+| `projects/ribbon_classifier/data/reference/README.md` | Format of the two MOA YAML files and how `ribbon moa-labels` uses them |
 | `projects/ribbon_classifier/data/interim/` | Intermediate files, e.g. `reference_pdf/` images + `reference_candidates.csv` from `ribbon extract-reference` |
 | `projects/ribbon_classifier/data/interim/.gitkeep` | Empty marker so git keeps the folder |
 | `projects/ribbon_classifier/data/processed/` | Model-ready data, e.g. `crops/` from `ribbon crop` |
@@ -120,12 +122,13 @@ MachineLearningTrial/
 | `projects/ribbon_classifier/src/ribbon_classifier/` | The Python package |
 | `projects/ribbon_classifier/src/ribbon_classifier/__init__.py` | Package marker, version, and an overview of the pipeline steps |
 | `projects/ribbon_classifier/src/ribbon_classifier/__main__.py` | Enables `python -m ribbon_classifier` |
-| `projects/ribbon_classifier/src/ribbon_classifier/cli.py` | The `ribbon` command: `extract-reference`, `manifest`, `split`, `crop`, `probe`, `train`, `evaluate`, `predict` |
+| `projects/ribbon_classifier/src/ribbon_classifier/cli.py` | The `ribbon` command: `extract-reference`, `moa-labels`, `manifest`, `split`, `crop`, `probe`, `train`, `evaluate`, `predict` |
 | `projects/ribbon_classifier/src/ribbon_classifier/config.py` | Typed config dataclasses and YAML loading; resolves relative paths against the project folder |
 | `projects/ribbon_classifier/src/ribbon_classifier/device.py` | Picks CUDA / Apple MPS / CPU; seeds random generators |
 | `projects/ribbon_classifier/src/ribbon_classifier/dataset.py` | Label manifest reading and validation (missing/corrupt files, typos, duplicates), folder-to-manifest conversion, EXIF-aware image loading, transforms/augmentation, PyTorch `Dataset` |
 | `projects/ribbon_classifier/src/ribbon_classifier/split.py` | Stratified, grouped train/val/test split; reference-PDF images forced into train |
 | `projects/ribbon_classifier/src/ribbon_classifier/reference_pdf.py` | Extracts embedded images + page text from the reference PDF into a CSV for labelling |
+| `projects/ribbon_classifier/src/ribbon_classifier/moa.py` | Turns MOA catalogue + design YAML into per-image labels: one count column per assembly operation, plus a single `label` column for `ribbon manifest`; reports unknown phrases, missing or unlisted images, and operations with no example |
 | `projects/ribbon_classifier/src/ribbon_classifier/localize.py` | Zero-shot ribbon detection (OWLv2) and cropping, single image or whole manifest |
 | `projects/ribbon_classifier/src/ribbon_classifier/model.py` | Builds the timm backbone + new head; saves/loads runs (safetensors + meta.json) |
 | `projects/ribbon_classifier/src/ribbon_classifier/probe.py` | Linear-probe baseline: frozen DINOv2 features + logistic regression |
@@ -135,6 +138,7 @@ MachineLearningTrial/
 | `projects/ribbon_classifier/tests/` | Offline tests on synthetic images with a tiny random model (no downloads) |
 | `projects/ribbon_classifier/tests/conftest.py` | Fixture that builds a throwaway project: synthetic "technique" images in grouped folders + a test config |
 | `projects/ribbon_classifier/tests/test_data.py` | Config defaults vs YAML, manifest building, validation messages, grouped splitting, EXIF/alpha loading, reference-PDF extraction, localiser cropping |
+| `projects/ribbon_classifier/tests/test_moa.py` | MOA phrase parsing, per-design count aggregation, label choice, and the problems report (on made-up phrases) |
 | `projects/ribbon_classifier/tests/test_pipeline.py` | End-to-end CLI run: manifest → split → probe → train → evaluate → predict |
 
 ### Project 2: `projects/layer_diff/`

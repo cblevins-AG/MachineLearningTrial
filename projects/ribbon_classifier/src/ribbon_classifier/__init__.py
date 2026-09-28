@@ -3,6 +3,7 @@
 The pipeline, one ``ribbon`` sub-command per step (see ``ribbon --help``)::
 
     extract-reference  reference PDF          -> candidate images + page text to label
+    moa-labels         MOA YAML + images      -> labels from a deck that lists assembly steps
     manifest           labelled folders       -> data/labels.csv
     split              labels.csv             -> data/splits.csv (train / val / test)
     crop               splits.csv + photos    -> ribbon-only crops (zero-shot detector)
